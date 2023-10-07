@@ -2,6 +2,7 @@ package com.investo.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,8 +41,7 @@ public class CandleServiceImpl implements CandleService {
 
 		mapper.registerModule(new JavaTimeModule());
 
-		// Candle candle = mapper.readValue(new File("src/main/resources/candles.json"),
-		// Candle.class);
+		// Candle candle = mapper.readValue(new File("src/main/resources/candles.json"),Candle.class);
 		System.out.println("before request for data");
 
 		try {
@@ -67,7 +67,9 @@ public class CandleServiceImpl implements CandleService {
 			throw new CandleIOException("Error while reading the candle.json file " + ex);
 		}
 	}
-
+	
+	
+	
 	@Override
 	public Candle retriveCandleByCandleId(Integer candleId) throws CandleException {
 
@@ -79,7 +81,23 @@ public class CandleServiceImpl implements CandleService {
 
 		return candleOpt.get();
 	}
+	
+	
+	
+	@Override
+	public List<Candle> getFirstAndLastCandlesOfTheDay() throws CandleException {
+		
+		List<Candle> candles = candleRepository.getFirstAndLastCandlesOfTheDay();
+		
+		if(candles.isEmpty()) {
+			throw new CandleException("Candle does not exit in Record");
+		}
+		
+		return candles;
+	}
 
+	
+	
 	@Override
 	public String getFirstORBCandle(Integer time) throws InvalidInputException {
 
@@ -100,18 +118,21 @@ public class CandleServiceImpl implements CandleService {
 		}
 
 		String msg = "Not found any ORB candle";
-
+		
 		for (int i = numberOfCandles; i < candleList.size(); i++) {
 			Candle candle = candleList.get(i);
 			if (candle.getClose() > highestHigh || candle.getClose() < lowestLow) {
-				msg = "ORB candle generated at " + candle.getLastTradeTime();
+				msg = "ORB candle generated at " + candle.getLastTradeTime().format(DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss"))+" .";
 				break;
 			}
 		}
-
+		System.out.println(msg);
 		return msg;
 	}
 
+	
+	
+	
 	@Override
 	public List<Candle> getCombinedCandle(Integer time) throws InvalidInputException {
 
@@ -160,5 +181,6 @@ public class CandleServiceImpl implements CandleService {
 
 		return combinedCandles;
 	}
+
 
 }

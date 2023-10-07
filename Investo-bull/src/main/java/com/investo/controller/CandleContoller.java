@@ -33,17 +33,25 @@ public class CandleContoller {
 	
 	
 	@GetMapping("/candle/{candleId}")  // http://localhost:8088/investo/candle/1
-	public ResponseEntity<Candle> retriveCandleByCandleId(@PathVariable Integer candleId){
+	public ResponseEntity<Candle> retriveCandleByCandleIdHandler(@PathVariable Integer candleId){
 		
 		Candle candle = candleService.retriveCandleByCandleId(candleId);
 		
 		return new ResponseEntity<Candle>(candle, HttpStatus.OK);
 	}
 	
+	@GetMapping("/first-last-candle")  // http://localhost:8088/investo/first-last-candle
+	public ResponseEntity<List<Candle>> getFirstAndLastCandlesOfTheDayHandler(){
+	
+		List<Candle> candles = candleService.getFirstAndLastCandlesOfTheDay();
+		
+		return new ResponseEntity<List<Candle>>(candles ,HttpStatus.OK); 
+	}
 	
 	
-	@GetMapping("/candle/{mintues}")   // http://localhost:8088/investo/candle/45
-	public ResponseEntity<String> getFirstORBCandle(@PathVariable("mintues") Integer time) {
+	
+	@GetMapping("/ORB/{mintues}")   // http://localhost:8088/investo/ORB/45
+	public ResponseEntity<String> getFirstORBCandleHandler(@PathVariable("mintues") Integer time) {
 	
 		String str = candleService.getFirstORBCandle(time);
 		
@@ -52,8 +60,8 @@ public class CandleContoller {
 	
 	
 	
-	@GetMapping("/candle/{mintues}")   // http://localhost:8088/investo/candle/15
-	public ResponseEntity<List<Candle>> getCombinedCandle(@PathVariable Integer time){
+	@GetMapping("/candles/{mintues}")   // http://localhost:8088/investo/candles/15
+	public ResponseEntity<List<Candle>> getCombinedCandleHandler(@PathVariable("mintues") Integer time){
 		
 		List<Candle> candles = candleService.getCombinedCandle(time);
 		
