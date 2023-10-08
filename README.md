@@ -19,7 +19,7 @@
 Welcome to the InvestoBull_Assignment project, a Stock Management application developed using Java, Spring Boot, and Spring Data JPA. This application is designed to streamline the processing of financial data. Whether you're working on a solo project or looking to explore Java and Spring technologies, this application provides valuable functionality for managing stock data.
 
 ## Demo Video
-[Insert a link to your demo video here, if available.]
+https://drive.google.com/file/d/1ISgq_Us1RkCa88OhZTbFxps4iUnOJLwk/view?usp=sharing
 
 ## Features
 - **Data Storage**: Easily store financial data from JSON files in a database.
